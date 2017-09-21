@@ -66,7 +66,7 @@ ffs (int x)
 	unsigned long i;
 
 	if (_BitScanForward(&i, x) != 0)
-	return i + 1;
+		return i + 1;
 
 	return 0;
 }
