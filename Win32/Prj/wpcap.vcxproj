@@ -99,20 +99,21 @@
       <Optimization>MaxSpeed</Optimization>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <WarningLevel>Level3</WarningLevel>
-      <AdditionalIncludeDirectories>../../;../../lbl/;../../bpf/;../include/;../../../../common;../../../../dag/include;../../../../dag/drv/windows;../../../Win32-Extensions;./;Win32-Extensions;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>HAVE_VERSION_H;__STDC_VERSION__=199901L;HAVE_PACKET_IS_LOOPBACK_ADAPTER;NDEBUG;YY_NEVER_INTERACTIVE;_USRDLL;BUILDING_PCAP;HAVE_STRERROR;__STDC__;INET6;_WINDOWS;HAVE_ADDRINFO;HAVE_REMOTE;WIN32;_U_=;YY_NO_UNISTD_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../../;../../lbl/;../../bpf/;../include/;../../../../common;../../../../dag/include;../../../../dag/drv/windows;../../../Win32-Extensions;./;Win32-Extensions;C:\Users\Ali\projects\libpcap\Win32\Prj\npcap-sdk-0.1\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>HAVE_VERSION_H;_CRT_SECURE_NO_WARNINGS;HAVE_PACKET32;__STDC_VERSION__=199901L;HAVE_PACKET_IS_LOOPBACK_ADAPTER;NDEBUG;YY_NEVER_INTERACTIVE;_USRDLL;BUILDING_PCAP;HAVE_STRERROR;__STDC__;INET6;_WINDOWS;HAVE_ADDRINFO;HAVE_REMOTE;WIN32;_U_=;YY_NO_UNISTD_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <ResourceCompile>
       <Culture>0x0409</Culture>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>ws2_32.lib;..\..\..\..\packetWin7\Dll\Project\Release No NetMon and AirPcap\Packet.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ws2_32.lib;Packet.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(PACKET_DLL_DIR)\Lib\;$(PACKET_DLL_DIR)\lib\;..\..\..\..\packetWin7\Dll\Project\Release No NetMon and AirPcap\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PreBuildEvent>
       <Command>call ..\..\GenVersion.bat ..\..\VERSION ..\..\pcap_version.h.in ..\..\pcap_version.h
-win_flex -Ppcap_ -7 --outfile=..\..\scanner.c --header-file=..\..\scanner.h ..\..\scanner.l
-win_bison -ppcap_ --yacc --output=..\..\grammar.c --defines ..\..\grammar.y</Command>
+win_flex -Ppcap_ -7 --outfile=scanner.c --header-file=..\..\scanner.h ..\..\scanner.l
+win_bison -ppcap_ --yacc --output=grammar.c --defines ..\..\grammar.y</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -124,34 +125,35 @@ win_bison -ppcap_ --yacc --output=..\..\grammar.c --defines ..\..\grammar.y</Com
       <Optimization>MaxSpeed</Optimization>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <WarningLevel>Level3</WarningLevel>
-      <AdditionalIncludeDirectories>../../;../../lbl/;../../bpf/;../include/;../../../../common;../../../../dag/include;../../../../dag/drv/windows;../../../Win32-Extensions;./;Win32-Extensions;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>HAVE_VERSION_H;__STDC_VERSION__=199901L;HAVE_PACKET_IS_LOOPBACK_ADAPTER;NDEBUG;YY_NEVER_INTERACTIVE;_USRDLL;BUILDING_PCAP;HAVE_STRERROR;__STDC__;INET6;_WINDOWS;HAVE_ADDRINFO;HAVE_REMOTE;WIN32;_U_=;YY_NO_UNISTD_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../../;../../lbl/;../../bpf/;../include/;../../../../common;../../../../dag/include;../../../../dag/drv/windows;../../../Win32-Extensions;./;Win32-Extensions;C:\Users\Ali\projects\libpcap\Win32\Prj\npcap-sdk-0.1\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>HAVE_VERSION_H;_CRT_SECURE_NO_WARNINGS;HAVE_PACKET32;__STDC_VERSION__=199901L;HAVE_PACKET_IS_LOOPBACK_ADAPTER;NDEBUG;YY_NEVER_INTERACTIVE;_USRDLL;BUILDING_PCAP;HAVE_STRERROR;__STDC__;INET6;_WINDOWS;HAVE_ADDRINFO;HAVE_REMOTE;WIN32;_U_=;YY_NO_UNISTD_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <ResourceCompile>
       <Culture>0x0409</Culture>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>ws2_32.lib;..\..\..\..\packetWin7\Dll\Project\x64\Release No NetMon and AirPcap\Packet.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ws2_32.lib;Packet.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(PACKET_DLL_DIR)\Lib\$(Platform)\;$(PACKET_DLL_DIR)\lib\$(Platform)\;..\..\..\..\packetWin7\Dll\Project\x64\Release No NetMon and AirPcap\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PreBuildEvent>
       <Command>call ..\..\GenVersion.bat ..\..\VERSION ..\..\pcap_version.h.in ..\..\pcap_version.h
-win_flex -Ppcap_ -7 --outfile=..\..\scanner.c --header-file=..\..\scanner.h ..\..\scanner.l
-win_bison -ppcap_ --yacc --output=..\..\grammar.c --defines ..\..\grammar.y</Command>
+win_flex -Ppcap_ -7 --outfile=scanner.c --header-file=..\..\scanner.h ..\..\scanner.l
+win_bison -ppcap_ --yacc --output=grammar.c --defines ..\..\grammar.y</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <InlineFunctionExpansion>Default</InlineFunctionExpansion>
-      <FunctionLevelLinking>false</FunctionLevelLinking>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
       <Optimization>Disabled</Optimization>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <WarningLevel>Level3</WarningLevel>
       <MinimalRebuild>true</MinimalRebuild>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <AdditionalIncludeDirectories>../../;../../lbl/;../../bpf/;../include/;../../../../common;../../../../dag/include;../../../../dag/drv/windows;../../../Win32-Extensions;./;Win32-Extensions;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>HAVE_VERSION_H;__STDC_VERSION__=199901L;HAVE_PACKET_IS_LOOPBACK_ADAPTER;_DEBUG;YY_NEVER_INTERACTIVE;_USRDLL;BUILDING_PCAP;HAVE_STRERROR;__STDC__;INET6;_WINDOWS;HAVE_ADDRINFO;HAVE_REMOTE;WIN32;_U_=;YY_NO_UNISTD_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../../;../../lbl/;../../bpf/;../include/;../../../../common;../../../../dag/include;../../../../dag/drv/windows;../../../Win32-Extensions;./;Win32-Extensions;C:\Users\Ali\projects\libpcap\Win32\Prj\npcap-sdk-0.1\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>HAVE_VERSION_H;_CRT_SECURE_NO_WARNINGS;HAVE_PACKET32;__STDC_VERSION__=199901L;HAVE_PACKET_IS_LOOPBACK_ADAPTER;_DEBUG;YY_NEVER_INTERACTIVE;_USRDLL;BUILDING_PCAP;HAVE_STRERROR;__STDC__;INET6;_WINDOWS;HAVE_ADDRINFO;HAVE_REMOTE;WIN32;_U_=;YY_NO_UNISTD_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
     </ClCompile>
     <ResourceCompile>
@@ -159,25 +161,27 @@ win_bison -ppcap_ --yacc --output=..\..\grammar.c --defines ..\..\grammar.y</Com
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>ws2_32.lib;..\..\..\..\packetWin7\Dll\Project\Release No NetMon and AirPcap\Packet.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ws2_32.lib;Packet.lib</AdditionalDependencies>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
+      <AdditionalLibraryDirectories>$(PACKET_DLL_DIR)\Lib;$(PACKET_DLL_DIR)\lib;..\..\..\..\packetWin7\Dll\Project\Debug No NetMon and AirPcap\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PreBuildEvent>
       <Command>call ..\..\GenVersion.bat ..\..\VERSION ..\..\pcap_version.h.in ..\..\pcap_version.h
-win_flex -Ppcap_ -7 --outfile=..\..\scanner.c --header-file=..\..\scanner.h ..\..\scanner.l
-win_bison -ppcap_ --yacc --output=..\..\grammar.c --defines ..\..\grammar.y</Command>
+win_flex -Ppcap_ -7 --outfile=scanner.c --header-file=..\..\scanner.h ..\..\scanner.l
+win_bison -ppcap_ --yacc --output=grammar.c --defines ..\..\grammar.y</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <InlineFunctionExpansion>Default</InlineFunctionExpansion>
-      <FunctionLevelLinking>false</FunctionLevelLinking>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
       <Optimization>Disabled</Optimization>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>../../;../../lbl/;../../bpf/;../include/;../../../../common;../../../../dag/include;../../../../dag/drv/windows;../../../Win32-Extensions;./;Win32-Extensions;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>HAVE_VERSION_H;__STDC_VERSION__=199901L;HAVE_PACKET_IS_LOOPBACK_ADAPTER;_DEBUG;YY_NEVER_INTERACTIVE;_USRDLL;BUILDING_PCAP;HAVE_STRERROR;__STDC__;INET6;_WINDOWS;HAVE_ADDRINFO;HAVE_REMOTE;WIN32;_U_=;YY_NO_UNISTD_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../../;../../lbl/;../../bpf/;../include/;../../../../common;../../../../dag/include;../../../../dag/drv/windows;../../../Win32-Extensions;./;Win32-Extensions;C:\Users\Ali\projects\libpcap\Win32\Prj\npcap-sdk-0.1\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>HAVE_VERSION_H;_CRT_SECURE_NO_WARNINGS;HAVE_PACKET32;__STDC_VERSION__=199901L;HAVE_PACKET_IS_LOOPBACK_ADAPTER;_DEBUG;YY_NEVER_INTERACTIVE;_USRDLL;BUILDING_PCAP;HAVE_STRERROR;__STDC__;INET6;_WINDOWS;HAVE_ADDRINFO;HAVE_REMOTE;WIN32;_U_=;YY_NO_UNISTD_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
     </ClCompile>
     <ResourceCompile>
@@ -185,44 +189,95 @@ win_bison -ppcap_ --yacc --output=..\..\grammar.c --defines ..\..\grammar.y</Com
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>ws2_32.lib;..\..\..\..\packetWin7\Dll\Project\x64\Release No NetMon and AirPcap\Packet.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ws2_32.lib;Packet.lib</AdditionalDependencies>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
+      <AdditionalLibraryDirectories>$(PACKET_DLL_DIR)\Lib\$(Platform);$(PACKET_DLL_DIR)\lib\$(Platform);..\..\..\..\packetWin7\Dll\Project\x64\Debug No NetMon and AirPcap\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PreBuildEvent>
       <Command>call ..\..\GenVersion.bat ..\..\VERSION ..\..\pcap_version.h.in ..\..\pcap_version.h
-win_flex -Ppcap_ -7 --outfile=..\..\scanner.c --header-file=..\..\scanner.h ..\..\scanner.l
-win_bison -ppcap_ --yacc --output=..\..\grammar.c --defines ..\..\grammar.y</Command>
+win_flex -Ppcap_ -7 --outfile=scanner.c --header-file=..\..\scanner.h ..\..\scanner.l
+win_bison -ppcap_ --yacc --output=grammar.c --defines ..\..\grammar.y</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\bpf\net\bpf_filter.c" />
     <ClCompile Include="..\..\bpf_dump.c" />
     <ClCompile Include="..\..\bpf_image.c" />
     <ClCompile Include="..\..\etherent.c" />
     <ClCompile Include="..\..\gencode.c" />
-    <ClCompile Include="..\..\grammar.c" />
-    <ClCompile Include="..\..\inet.c" />
-    <ClCompile Include="..\..\missing\win_snprintf.c" />
     <ClCompile Include="..\..\nametoaddr.c" />
     <ClCompile Include="..\..\optimize.c" />
     <ClCompile Include="..\..\pcap-common.c" />
-    <ClCompile Include="..\..\pcap-new.c" />
-    <ClCompile Include="..\..\pcap-rpcap.c" />
-    <ClCompile Include="..\..\pcap-win32.c" />
     <ClCompile Include="..\..\pcap.c" />
     <ClCompile Include="..\..\savefile.c" />
-    <ClCompile Include="..\..\scanner.c" />
     <ClCompile Include="..\..\sf-pcap-ng.c" />
     <ClCompile Include="..\..\sf-pcap.c" />
+    <ClCompile Include="..\..\bpf\net\bpf_filter.c" />
+    <ClCompile Include="..\..\missing\win_snprintf.c" />
+    <ClCompile Include="..\..\pcap-new.c" />
+    <ClCompile Include="..\..\pcap-rpcap.c" />
     <ClCompile Include="..\..\sockutils.c" />
+    <ClCompile Include="..\..\pcap-npf.c" />
+    <ClCompile Include="grammar.c" />
+    <ClCompile Include="scanner.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\arcnet.h" />
+    <ClInclude Include="..\..\atmuni31.h" />
+    <ClInclude Include="..\..\dlpisubs.h" />
+    <ClInclude Include="..\..\ethertype.h" />
+    <ClInclude Include="..\..\extract.h" />
+    <ClInclude Include="..\..\ftmacros.h" />
+    <ClInclude Include="..\..\gencode.h" />
+    <ClInclude Include="..\..\grammar.h" />
+    <ClInclude Include="..\..\ieee80211.h" />
+    <ClInclude Include="..\..\llc.h" />
+    <ClInclude Include="..\..\nametoaddr.h" />
+    <ClInclude Include="..\..\nlpid.h" />
+    <ClInclude Include="..\..\pcap-bpf.h" />
+    <ClInclude Include="..\..\pcap-bt-linux.h" />
+    <ClInclude Include="..\..\pcap-bt-monitor-linux.h" />
     <ClInclude Include="..\..\pcap-common.h" />
+    <ClInclude Include="..\..\pcap-dag.h" />
+    <ClInclude Include="..\..\pcap-dbus.h" />
+    <ClInclude Include="..\..\pcap-dos.h" />
     <ClInclude Include="..\..\pcap-int.h" />
+    <ClInclude Include="..\..\pcap-namedb.h" />
+    <ClInclude Include="..\..\pcap-netfilter-linux.h" />
+    <ClInclude Include="..\..\pcap-netmap.h" />
+    <ClInclude Include="..\..\pcap-rdmasniff.h" />
+    <ClInclude Include="..\..\pcap-rpcap-int.h" />
     <ClInclude Include="..\..\pcap-rpcap.h" />
-    <ClInclude Include="..\..\pcap-stdinc.h" />
+    <ClInclude Include="..\..\pcap-septel.h" />
+    <ClInclude Include="..\..\pcap-sita.h" />
+    <ClInclude Include="..\..\pcap-snf.h" />
+    <ClInclude Include="..\..\pcap-tc.h" />
+    <ClInclude Include="..\..\pcap-types.h" />
+    <ClInclude Include="..\..\pcap-usb-linux.h" />
     <ClInclude Include="..\..\pcap.h" />
-    <ClInclude Include="..\..\remote-ext.h" />
+    <ClInclude Include="..\..\pcap_version.h" />
+    <ClInclude Include="..\..\portability.h" />
+    <ClInclude Include="..\..\ppp.h" />
+    <ClInclude Include="..\..\rpcap-protocol.h" />
+    <ClInclude Include="..\..\scanner.h" />
+    <ClInclude Include="..\..\sf-pcap-ng.h" />
+    <ClInclude Include="..\..\sf-pcap.h" />
     <ClInclude Include="..\..\sockutils.h" />
+    <ClInclude Include="..\..\sunatmpos.h" />
+    <ClInclude Include="..\..\pcap\bluetooth.h" />
+    <ClInclude Include="..\..\pcap\bpf.h" />
+    <ClInclude Include="..\..\pcap\can_socketcan.h" />
+    <ClInclude Include="..\..\pcap\compiler-tests.h" />
+    <ClInclude Include="..\..\pcap\dlt.h" />
+    <ClInclude Include="..\..\pcap\funcattrs.h" />
+    <ClInclude Include="..\..\pcap\ipnet.h" />
+    <ClInclude Include="..\..\pcap\namedb.h" />
+    <ClInclude Include="..\..\pcap\nflog.h" />
+    <ClInclude Include="..\..\pcap\pcap-inttypes.h" />
+    <ClInclude Include="..\..\pcap\pcap.h" />
+    <ClInclude Include="..\..\pcap\sll.h" />
+    <ClInclude Include="..\..\pcap\usb.h" />
+    <ClInclude Include="..\..\pcap\vlan.h" />
+    <ClInclude Include="pcap_version.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\..\..\Win32-Extensions\version.rc" />

@@ -16,12 +16,6 @@
     <ClCompile Include="..\..\gencode.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\grammar.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\inet.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\nametoaddr.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -31,13 +25,7 @@
     <ClCompile Include="..\..\pcap.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\pcap-win32.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\savefile.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\scanner.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\sf-pcap.c">
@@ -47,9 +35,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\pcap-common.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\fad-helpers.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\missing\win_snprintf.c">
@@ -64,6 +49,9 @@
     <ClCompile Include="..\..\sockutils.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\pcap-npf.c" />
+    <ClCompile Include="grammar.c" />
+    <ClCompile Include="scanner.c" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">
@@ -77,9 +65,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\pcap-stdinc.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\pcap-common.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -90,9 +75,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\pcap-rpcap.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\remote-ext.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\sockutils.h">
