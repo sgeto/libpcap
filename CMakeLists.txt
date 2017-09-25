@@ -992,7 +992,7 @@ if(NOT BUILD_SHARED_LIBS)
 endif(NOT BUILD_SHARED_LIBS)
 
 if(WIN32)
-    if(CMAKE_CL_64)
+    if(MSVC AND CMAKE_SIZEOF_VOID_P EQUAL 8)
         #
         # Install 64-bit code built with MSVC in the amd64 subdirectories,
         # as that's where it expects it to be.
@@ -1005,7 +1005,7 @@ if(WIN32)
             install(FILES $<TARGET_PDB_FILE:${LIBRARY_NAME}>
                     DESTINATION bin/amd64 OPTIONAL)
         endif(BUILD_SHARED_LIBS AND NOT MINGW)
-    else(CMAKE_CL_64)
+    else(MSVC AND CMAKE_SIZEOF_VOID_P EQUAL 8)
         #
         # Install 32-bit code, and 64-bit code not built with MSVC
         # in the top-level directories, as those are where they
@@ -1019,7 +1019,7 @@ if(WIN32)
             install(FILES $<TARGET_PDB_FILE:${LIBRARY_NAME}>
                     DESTINATION bin OPTIONAL)
         endif(BUILD_SHARED_LIBS AND NOT MINGW)
-    endif(CMAKE_CL_64)
+    endif(MSVC AND CMAKE_SIZEOF_VOID_P EQUAL 8)
 else(WIN32)
     install(TARGETS ${LIBRARY_NAME} ${LIBRARY_NAME_STATIC} DESTINATION lib)
 endif(WIN32)
