@@ -48,6 +48,37 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
     option(BUILD_WITH_LIBNL "Build with libnl" ON)
 endif()
 
+###################################################################
+#   Versioning
+###################################################################
+
+# Get, parse, format and set pcap's version string from [pcap_root]/VERSION
+# for later use.
+
+# Get MAJOR, MINOR, PATCH & SUFFIX
+file(STRINGS ${pcap_SOURCE_DIR}/VERSION
+    PACKAGE_VERSION
+    LIMIT_COUNT 1 # Read only the first line
+)
+# Get "just" MAJOR
+string(REGEX MATCH "^([0-9]+)" PACKAGE_VERSION_MAJOR "${PACKAGE_VERSION}")
+
+# Get MAJOR, MINOR & PATCH
+string(REGEX MATCH "^([0-9]+.)?([0-9]+.)?([0-9]+)" PACKAGE_VERSION_NOSUFFIX "${PACKAGE_VERSION}")
+
+if(WIN32)
+    # Convert PCAP_VERSION_NOSUFFIX to Windows preferred version format
+    string(REPLACE "." "," PACKAGE_VERSION_PREDLL ${PACKAGE_VERSION_NOSUFFIX})
+
+    # Append NANO (used for Windows internal versioning) to PCAP_VERSION_PREDLL
+    # 0 means unused.
+    set(PACKAGE_VERSION_DLL "${PACKAGE_VERSION_PREDLL},0")
+endif(WIN32)
+
+# set(PACKAGE_VERSION "${PCAP_VERSION_STRING}")
+set(PACKAGE_NAME "${LIBRARY_NAME}")
+set(PACKAGE_STRING "${LIBRARY_NAME} ${PACKAGE_VERSION}")
+
 ######################################
 # Project settings
 ######################################
@@ -913,6 +944,13 @@ set(PROJECT_SOURCE_LIST_H ${PROJECT_SOURCE_LIST_H} ${CMAKE_CURRENT_BINARY_DIR}/p
 source_group("Source Files" FILES ${PROJECT_SOURCE_LIST_C})
 source_group("Header Files" FILES ${PROJECT_SOURCE_LIST_H})
 
+if(WIN32)
+#
+# Add pcap-dll.rc to the list of sources.
+#
+set(PROJECT_SOURCE_LIST_C ${PROJECT_SOURCE_LIST_C} ${pcap_SOURCE_DIR}/Win32/pcap-dll.rc)
+endif(WIN32)
+
 ######################################
 # Register targets
 ######################################
@@ -949,27 +987,30 @@ add_library(${LIBRARY_NAME}_static STATIC
 )
 add_dependencies(${LIBRARY_NAME}_static SerializeTarget)
 
-if(MSVC)
-    foreach(DBG_FLAGS
-        CMAKE_C_FLAGS_DEBUG CMAKE_C_FLAGS_RELWITHDEBINFO
-        CMAKE_CXX_FLAGS_DEBUG CMAKE_CXX_FLAGS_RELWITHDEBINFO)
-        string(REGEX REPLACE "/Zi" "" ${DBG_FLAGS} "${${DBG_FLAGS}}")
-    endforeach(DBG_FLAGS)
+if(WIN32)
+    set_target_properties(${LIBRARY_NAME} PROPERTIES
+        VERSION ${PACKAGE_VERSION_NOSUFFIX} # only MAJOR and MINOR are needed
+    )
 
-    if(BUILD_SHARED_LIBS)
-        set_target_properties(${LIBRARY_NAME} PROPERTIES COMPILE_OPTIONS "/Zi")
-    endif(BUILD_SHARED_LIBS)
-    set_target_properties(${LIBRARY_NAME}_static PROPERTIES COMPILE_OPTIONS "/Z7")
-elseif(MINGW)
-    #
-    # For compatibility, build the shared library without the "lib" prefix on
-    # MinGW as well.
-    #
-    set_target_properties(${LIBRARY_NAME} PROPERTIES PREFIX "" OUTPUT_NAME "${LIBRARY_NAME}")
-    set_target_properties(${LIBRARY_NAME}_static PROPERTIES OUTPUT_NAME "${LIBRARY_NAME}")
-else()
-    set_target_properties(${LIBRARY_NAME}_static PROPERTIES OUTPUT_NAME "${LIBRARY_NAME}")
-endif()
+        if(MSVC)
+            # This line is necessary for NMake to install the PDB file. No idea why.
+            set(CMAKE_COMPILE_PDB_OUTPUT_DIRECTORY $<TARGET_FILE_DIR:${LIBRARY_NAME}_static>)
+
+            set_target_properties(${LIBRARY_NAME}_static PROPERTIES
+            COMPILE_PDB_NAME ${LIBRARY_NAME}_static 
+            OUTPUT_NAME "${LIBRARY_NAME}_static"
+            )
+        endif(MSVC)
+else(WIN32) # UN*X and alike
+    set_target_properties(${LIBRARY_NAME} PROPERTIES
+        VERSION ${PACKAGE_VERSION}
+        SOVERSION ${PACKAGE_VERSION_MAJOR}
+    )
+
+    set_target_properties(${LIBRARY_NAME}_static PROPERTIES 
+    OUTPUT_NAME "${LIBRARY_NAME}"
+    )
+endif(WIN32)
 
 if(BUILD_SHARED_LIBS)
     target_link_libraries(${LIBRARY_NAME} ${PCAP_LINK_LIBRARIES})
