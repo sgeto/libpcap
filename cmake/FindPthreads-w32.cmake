@@ -128,7 +128,7 @@ elseif(PTHREADS_ROOT)
   set(PTHREADS_ROOT PATHS ${PTHREADS_ROOT} NO_DEFAULT_PATH)
 else()
   set(PTHREADS_ROOT $ENV{PTHREADS_ROOT})
-endif(PTHREADS_ROOT)
+endif()
 
 #
 # Find the header file
