@@ -82,7 +82,49 @@ else(NOT DEFINED PTHREADS_EXCEPTION_SCHEME)
 
 endif(NOT DEFINED PTHREADS_EXCEPTION_SCHEME)
 
-if(PTHREADS_ROOT)
+if(GET_PTHREADS)
+  # Download it
+  file(DOWNLOAD
+  ftp://sourceware.org/pub/pthreads-win32/pthreads-w32-2-9-1-release.zip
+  ${CMAKE_BINARY_DIR}/pthreads-w32-2-9-1-release.zip
+  EXPECTED_HASH SHA512=9282d56d5fbc8c09f31d3b67f2504781968c39703e8fb2d9e7663f5f7c2873caed4654d434e4bf7428d414c5b778c263069bdb9453ed2a89ddb0083791ccdeac
+  STATUS GET_PTHREADS_STATUS
+  )
+
+  message(STATUS "extracting...
+    src='${CMAKE_BINARY_DIR}/pthreads-w32-2-9-1-release.zip'
+    dst='${CMAKE_BINARY_DIR}'")
+
+  # Extract it
+  message(STATUS "extracting... [tar xfz]")
+  execute_process(COMMAND ${CMAKE_COMMAND} -E tar xfz ${CMAKE_BINARY_DIR}/pthreads-w32-2-9-1-release.zip
+  WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+  RESULT_VARIABLE RV)
+
+  if(NOT RV EQUAL 0)
+    message(FATAL_ERROR "error: extract of 'pthreads-w32-2-9-1-release.zip' failed")
+  endif()
+
+  # Clean up
+  message(STATUS "extracting... [clean up]")
+  file(REMOVE_RECURSE "${CMAKE_BINARY_DIR}/pthreads.2" "${CMAKE_BINARY_DIR}/QueueUserAPCEx")
+
+  message(STATUS "extracting... done")
+
+  # Patch it
+  message(STATUS "patching... ")
+  file(GLOB HEADERS "${CMAKE_BINARY_DIR}/Pre-built.2/include/*.h")
+  foreach(HEADER ${HEADERS})
+    file(READ "${HEADER}" _contents)
+    string(REPLACE "defined(_TIMESPEC_DEFINED)" "1" _contents "${_contents}")
+    string(REPLACE "defined(PTW32_RC_MSC)" "1" _contents "${_contents}")
+    file(WRITE "${HEADER}" "${_contents}")
+  endforeach()
+  message(STATUS "patching... done")
+
+  set(PTHREADS_ROOT "${CMAKE_BINARY_DIR}/Pre-built.2")
+
+elseif(PTHREADS_ROOT)
   set(PTHREADS_ROOT PATHS ${PTHREADS_ROOT} NO_DEFAULT_PATH)
 else()
   set(PTHREADS_ROOT $ENV{PTHREADS_ROOT})
