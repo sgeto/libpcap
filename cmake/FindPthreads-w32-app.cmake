@@ -83,6 +83,32 @@ else(NOT DEFINED PTHREADS_EXCEPTION_SCHEME)
 endif(NOT DEFINED PTHREADS_EXCEPTION_SCHEME)
 
 if(GET_PTHREADS)
+
+
+I assume you already have a zip-tool installed (WinZip or 7z, etc.). You could write a find_zip-tool script which will search for WinZip, or 7Z, etc...
+
+Snippet for WinZip:
+
+FIND_PROGRAM(ZIP_EXECUTABLE wzzip PATHS "$ENV{ProgramFiles}/WinZip")
+IF(ZIP_EXECUTABLE)
+  SET(ZIP_COMMAND "\"${ZIP_EXECUTABLE}\" -P \"<ARCHIVE>\" @<FILELIST>")
+ENDIF(ZIP_EXECUTABLE)
+Snippet for 7-zip:
+
+  FIND_PROGRAM(ZIP_EXECUTABLE 7z PATHS "$ENV{ProgramFiles}/7-Zip") 
+  IF(ZIP_EXECUTABLE)
+    SET(ZIP_COMMAND "\"${ZIP_EXECUTABLE}\" a -tzip \"<ARCHIVE>\" @<FILELIST>")
+  ENDIF(ZIP_EXECUTABLE)
+Take a look at the file
+
+<cmake-install-dir>\share\cmake-2.8\Modules\CPackZIP.cmake
+it shows how CPack searches for a Zip_Executable and prepares some "useful" default flags.
+
+After that, I would suggest to execute_process, similar to sakra's answer
+
+
+# Check whether the source has been downloaded. If true, skip it.
+# Useful for external downloads like homebrew.
   # Download it
   file(DOWNLOAD
   # ftp://sourceware.org/pub/pthreads-win32/pthreads-w32-2-9-1-release.zip
@@ -90,7 +116,6 @@ if(GET_PTHREADS)
   ${CMAKE_BINARY_DIR}/pthreads-w32-2-9-1-release.zip
   EXPECTED_HASH SHA512=9282d56d5fbc8c09f31d3b67f2504781968c39703e8fb2d9e7663f5f7c2873caed4654d434e4bf7428d414c5b778c263069bdb9453ed2a89ddb0083791ccdeac
   STATUS GET_PTHREADS_STATUS
-  SHOW_PROGRESS
   )
 
   message(STATUS "extracting...
@@ -120,6 +145,9 @@ if(GET_PTHREADS)
     file(READ "${HEADER}" _contents)
     string(REPLACE "defined(_TIMESPEC_DEFINED)" "1" _contents "${_contents}")
     string(REPLACE "defined(PTW32_RC_MSC)" "1" _contents "${_contents}")
+    # if(LIBRARY_LINKAGE STREQUAL static)
+      # string(REPLACE "!defined(PTW32_STATIC_LIB)" "0" _contents "${_contents}")
+    # endif()
     file(WRITE "${HEADER}" "${_contents}")
   endforeach()
   message(STATUS "patching... done")
@@ -130,7 +158,7 @@ elseif(PTHREADS_ROOT)
   set(PTHREADS_ROOT PATHS ${PTHREADS_ROOT} NO_DEFAULT_PATH)
 else()
   set(PTHREADS_ROOT $ENV{PTHREADS_ROOT})
-endif()
+endif(PTHREADS_ROOT)
 
 #
 # Find the header file
