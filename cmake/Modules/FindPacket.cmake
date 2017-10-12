@@ -28,16 +28,16 @@
 #
 # This module defines the following variables:
 #
-#    PACKET_INCLUDE_DIR   - absolute path to the directory containing Packet32.h.
-#    PACKET_LIBRARY       - absolute path to the Packet library to link with.
-#    PACKET_FOUND         - true if the Packet library *and* its headers are found.
+#  PACKET_INCLUDE_DIR  - absolute path to the directory containing Packet32.h.
+#  PACKET_LIBRARY      - absolute path to the Packet library to link with.
+#  PACKET_FOUND        - true if the Packet library *and* its headers are found.
 #
 # Hints and Backward Compatibility
 # ================================
 #
 # To tell this module where to look, a user may set the environment variable
-# PACKET_DLL_DIR to point cmake to the *root* of a directory with include and lib
-# subdirectories for packet.dll (e.g WpdPack/npcap-sdk).
+# PACKET_DLL_DIR to point cmake to the *root* of a directory with include and
+# lib subdirectories for packet.dll (e.g WpdPack/npcap-sdk).
 # Alternatively, PACKET_DLL_DIR may also be set from cmake command line or GUI
 # (e.g cmake -DPACKET_DLL_DIR=/path/to/packet [...])
 #
@@ -61,7 +61,8 @@ find_path(PACKET_INCLUDE_DIR Packet32.h
 if(PACKET_INCLUDE_DIR)
   message(STATUS "Found Packet32.h: ${PACKET_INCLUDE_DIR}")
 # else()
-# message(FATAL_ERROR "Could not find Packet32.h. See README.Win32 for more information.")
+  # message(FATAL_ERROR "Could not find Packet32.h. See README.Win32 for more
+# information.")
 endif()
 
 # Find the library
@@ -75,7 +76,8 @@ if(PACKET_LIBRARY)
   message(STATUS "Found Packet library: ${PACKET_LIBRARY}")
   set(HAVE_PACKET ${PACKET_LIBRARY})
 # else()
-  # message(FATAL_ERROR "Could not find Packet library. See README.Win32 for more information.")
+  # message(FATAL_ERROR "Could not find Packet library. See README.Win32 for
+# more information.")
 endif()
 
 if(PACKET_INCLUDE_DIR AND PACKET_LIBRARY)

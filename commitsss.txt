@@ -1,0 +1,63 @@
+Sorry I mean most projects I've seen...
+True, not even cmake is exactly consistent.
+
+Actually, I have a few more local changes. I think I should get them out of the way before changing indentation. I hate merge conflicts...
+
+
+It's  related. I initially planned to used two variables `SUBMOD_LIBDIR_DBG `and `SUBMOD_LIBDIR_REL ` then decided to just `SUBMOD_LIB_DIR` instead. I forgot to reflect this change there.
+
+Went back to regular debugging information for static library
+
+Agreed. It's the right thing to do.
+
+
+Link with -static-libgcc on MinGW when USE_STATIC_RT is enabled
+
+Use CMAKE_SIZEOF_VOID_P to determine target architecture.
+
+Using CMAKE_CL_64 is discouraged by cmake authors' and is Windows only.
+
+
+Added version information to cmake produced libraries (draft don't push!!!!)
+
+Include "common" folder only if it exists and before running find_package()
+
+Remove obsolete/nonexistent include directories
+
+Include Directories:
+../../../Win32-Extensions (untouched since 2010. Well, except for .rc files, which libpcap shouldn't be using anyways)
+
+
+../../lbl/
+../../../../dag/include
+../../../../dag/drv/windows
+not sure when these directories matter...
+see config.h for many of these!!!
+
+
+
+CFLAGS:
+Edit And Continue (/ZI)
+A cool feature actually. It was wrongly configured and never really work.
+Deserves its own Pull Request... Stay tuned.
+
+1>bpf_dump.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/SAFESEH' specification
+
+Omit Frame Pointer (/Oy)
+Inconsistent usage. "No" with Win32 and "Default" with x64
+
+Defines:
+HAVE_VERSION_H using libpcap internal versionong instead of C:\Users\Ali\projects\libpcap\pcap-npf.c
+
+;__STDC_VERSION__=199901L;;NDEBUG;YY_NEVER_INTERACTIVE;_USRDLL;;;;;;;;;;%(PreprocessorDefinitions)
+see config.h for many of these!!!
+
+if(debug)
+add_compile_options(/ZI /Gy)
+add_definitions(-D_DEBUG)
+/LIBPATH link dirs ../../../../no airpcap
+else()
+add_definitions(-DNDEBUG)
+add_compile_options(/GF debug too?)
+/LIBPATH ../../../../no airpcap
+endif()

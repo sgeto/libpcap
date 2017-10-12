@@ -69,3 +69,13 @@ msdos/.depend.dj
 msdos/bin2c.exe
 msdos/pkt_rx1.lst
 msdos/pkt_stub.inc
+build/
+
+buildvs/
+
+Win32/
+!Win32/Prj/wpcap.sln
+!Win32/Prj/wpcap.vcxproj
+!Win32/Prj/wpcap.vcxproj.filters
+
+buildL/
