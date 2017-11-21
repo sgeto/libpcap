@@ -159,13 +159,22 @@ static inline int xdtoi(int);
 bpf_u_int32 **
 pcap_nametoaddr(const char *name)
 {
+	struct addrinfo     *serv = NULL;
+	struct addrinfo     hints;
+
+	memset(&hints, 0, sizeof(struct addrinfo));
+	hints.ai_family = AF_UNSPEC;
+	hints.ai_socktype = SOCK_STREAM;
+	hints.ai_flags = AI_PASSIVE;
+
 #ifndef h_addr
 	static bpf_u_int32 *hlist[2];
 #endif
 	bpf_u_int32 **p;
 	struct hostent *hp;
 
-	if ((hp = gethostbyname(name)) != NULL) {
+	// retrieve information about host
+	if (getaddrinfo(name, "http", &hints, &serv) != 0) {
 #ifndef h_addr
 		hlist[0] = (bpf_u_int32 *)hp->h_addr;
 		NTOHL(hp->h_addr);
