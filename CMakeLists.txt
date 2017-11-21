@@ -11,7 +11,7 @@ endif()
 
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/Modules)
 
-project(pcap)
+project(pcap C)
 
 ###################################################################
 #   Parameters
