@@ -32,6 +32,6 @@ before_build:
   - cd build
   - cmake -DCMAKE_PREFIX_PATH=c:\projects\libpcap\Win32\WpdPack -G"%GENERATOR%" ..
 
-build_script: >
-  - for %C in (Debug Release RelWithDebInfo MinSizeRel) do cmake --build . --target INSTALL -- /nologo /maxcpucount /consoleloggerparameters:NoItemAndPropertyList;NoSummary;Verbosity=minimal /target:Rebuild /property:Configuration=%C
-  - for %C in (Debug Release RelWithDebInfo MinSizeRel) do cmake --build . --target testprogs -- -nologo -maxcpucount /consoleloggerparameters:NoItemAndPropertyList;NoSummary;Verbosity=minimal /target:Rebuild /property:Configuration=%C
+build_script:
+  - for %C in (Debug Release RelWithDebInfo MinSizeRel) do cmake --build . --target INSTALL -- -nologo -maxcpucount "-consoleloggerparameters:NoItemAndPropertyList;NoSummary;Verbosity=minimal" "-target:Rebuild" "-property:Configuration=%C"
+  - for %C in (Debug Release RelWithDebInfo MinSizeRel) do cmake --build . --target testprogs -- -nologo -maxcpucount "-consoleloggerparameters:NoItemAndPropertyList;NoSummary;Verbosity=minimal" "-target:Rebuild" "-property:Configuration=%C"
