@@ -35,11 +35,11 @@ before_build:
   - cd build
   - cmake -DCMAKE_VS_PLATFORM_TOOLSET_HOST_ARCHITECTURE=x64 -DCMAKE_PREFIX_PATH=c:\projects\libpcap\Win32\WpdPack -G"%GENERATOR%" ..
 
-build_script: >
-  - for %T in (INSTALL testprogs) do (
-      for %C in (Debug Release RelWithDebInfo MinSizeRel) do (
-        echo "Building %APPVEYOR_PROJECT_NAME% [Target: "%T" and Configuration: "%C"]"
-        Add-AppveyorMessage "Building %APPVEYOR_PROJECT_NAME% [Target: "%T" and Configuration: "%C"]" -Category Information -Details "APPVEYOR BUILD WORKER IMAGE: %APPVEYOR_BUILD_WORKER_IMAGE%"
-        cmake --build . --target %T -- -nologo -maxcpucount -consoleloggerparameters:NoItemAndPropertyList;NoSummary;Verbosity=minimal -target:Rebuild -property:Configuration=%C -logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
-       )
-    )
+build_script: 
+  - > for %T in (INSTALL testprogs) do (
+        for %C in (Debug Release RelWithDebInfo MinSizeRel) do (
+          echo "Building %APPVEYOR_PROJECT_NAME% [Target: "%T" and Configuration: "%C"]"
+          Add-AppveyorMessage "Building %APPVEYOR_PROJECT_NAME% [Target: "%T" and Configuration: "%C"]" -Category Information -Details "APPVEYOR BUILD WORKER IMAGE: %APPVEYOR_BUILD_WORKER_IMAGE%"
+          cmake --build . --target %T -- -nologo -maxcpucount -consoleloggerparameters:NoItemAndPropertyList;NoSummary;Verbosity=minimal -target:Rebuild -property:Configuration=%C -logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+        )
+      )
