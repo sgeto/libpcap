@@ -30,7 +30,7 @@ before_build:
   - set PATH=c:\msys64\MinGW64\bin;c:\msys64\usr\bin;%PATH%
   - flex --version
   - bison --version
-  - touch .devel
+  # - touch .devel
   - mkdir build
   - cd build
   - cmake -DCMAKE_VS_PLATFORM_TOOLSET_HOST_ARCHITECTURE=x64 -DCMAKE_PREFIX_PATH=c:\projects\libpcap\Win32\WpdPack -G"%GENERATOR%" ..
