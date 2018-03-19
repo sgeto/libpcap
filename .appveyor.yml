@@ -37,8 +37,8 @@ before_build:
 
 build_script:
   - |
-    for %%T in (INSTALL testprogs) do (
-    for %C in (Debug Release RelWithDebInfo MinSizeRel) do (
+    for %T in (INSTALL testprogs) do ( ^
+    for %C in (Debug Release RelWithDebInfo MinSizeRel) do ( ^
     cmake --build . --target %%T -- -nologo -maxcpucount -consoleloggerparameters:NoItemAndPropertyList;NoSummary;Verbosity=minimal -target:Rebuild -property:Configuration=%C -logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
     )
     )
