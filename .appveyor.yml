@@ -20,18 +20,26 @@ matrix:
   fast_finish: true
 
 install:
-  - cinst winflexbison
-  - win_flex --version
-  - win_bison --version
+  # - cinst winflexbison
+  # - win_flex --version
+  # - win_bison --version
   - appveyor DownloadFile http://www.winpcap.org/install/bin/WpdPack_4_1_2.zip
   - 7z x .\WpdPack_4_1_2.zip -oc:\projects\libpcap\Win32
 
 before_build:
   - set PATH=c:\msys64\MinGW64\bin;c:\msys64\usr\bin;%PATH%
+  - flex --version
+  - bison --version
+  - touch .devel
   - mkdir build
   - cd build
-  - cmake -DCMAKE_PREFIX_PATH=c:\projects\libpcap\Win32\WpdPack -G"%GENERATOR%" ..
+  - cmake -DCMAKE_VS_PLATFORM_TOOLSET_HOST_ARCHITECTURE=x64 -DCMAKE_PREFIX_PATH=c:\projects\libpcap\Win32\WpdPack -G"%GENERATOR%" ..
 
-build_script:
-  - for %C in (Debug Release RelWithDebInfo MinSizeRel) do cmake --build . --target INSTALL -- -nologo -maxcpucount "-consoleloggerparameters:NoItemAndPropertyList;NoSummary;Verbosity=minimal" "-target:Rebuild" "-property:Configuration=%C"
-  - for %C in (Debug Release RelWithDebInfo MinSizeRel) do cmake --build . --target testprogs -- -nologo -maxcpucount "-consoleloggerparameters:NoItemAndPropertyList;NoSummary;Verbosity=minimal" "-target:Rebuild" "-property:Configuration=%C"
+build_script: >
+  - for %T in (INSTALL testprogs) do (
+      for %C in (Debug Release RelWithDebInfo MinSizeRel) do (
+        echo "Building %APPVEYOR_PROJECT_NAME% [Target: "%T" and Configuration: "%C"]"
+        Add-AppveyorMessage "Building %APPVEYOR_PROJECT_NAME% [Target: "%T" and Configuration: "%C"]" -Category Information -Details "APPVEYOR BUILD WORKER IMAGE: %APPVEYOR_BUILD_WORKER_IMAGE%"
+        cmake --build . --target %T -- -nologo -maxcpucount -consoleloggerparameters:NoItemAndPropertyList;NoSummary;Verbosity=minimal -target:Rebuild -property:Configuration=%C -logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+       )
+    )
