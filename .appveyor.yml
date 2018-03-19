@@ -39,7 +39,7 @@ build_script:
   - >-
     for %%T in (INSTALL testprogs) do (
     for %C in (Debug Release RelWithDebInfo MinSizeRel) do (
-    echo "Building %APPVEYOR_PROJECT_NAME% [Target: "%T" and Configuration: "%C"]"
+    echo "Building [Target: "%T" and Configuration: "%C"]"
     Add-AppveyorMessage "Building %APPVEYOR_PROJECT_NAME% [Target: "%T" and Configuration: "%C"]" -Category Information -Details "APPVEYOR BUILD WORKER IMAGE: %APPVEYOR_BUILD_WORKER_IMAGE%"
     cmake --build . --target %T -- -nologo -maxcpucount -consoleloggerparameters:NoItemAndPropertyList;NoSummary;Verbosity=minimal -target:Rebuild -property:Configuration=%C -logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
     )
